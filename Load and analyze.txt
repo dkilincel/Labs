@@ -1,0 +1,18 @@
+# Load and analyze the Jupyter Notebook to extract web scraping steps
+notebook_path = "/mnt/data/jupyter-labs-webscraping.ipynb"
+
+with open(notebook_path, "r", encoding="utf-8") as f:
+    notebook_content = nbformat.read(f, as_version=4)
+
+# Extract code and markdown cells
+code_cells = [cell["source"] for cell in notebook_content.cells if cell.cell_type == "code"]
+markdown_cells = [cell["source"] for cell in notebook_content.cells if cell.cell_type == "markdown"]
+
+# Display first few markdown lines to understand context
+markdown_cells[:5]
+
+['<p style="text-align:center">\n    <a href="https://skills.network" target="_blank">\n    <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/assets/logos/SN_web_lightmode.png" width="200" alt="Skills Network Logo">\n    </a>\n</p>\n',
+ '# **Space X  Falcon 9 First Stage Landing Prediction**\n',
+ '## Web scraping Falcon 9 and Falcon Heavy Launches Records from Wikipedia\n',
+ 'Estimated time needed: **40** minutes\n',
+ 'In this lab, you will be performing web scraping to collect Falcon 9 historical launch records from a Wikipedia page titled `List of Falcon 9 and Falcon Heavy launches`\n\nhttps://en.wikipedia.org/wiki/List_of_Falcon_9_and_Falcon_Heavy_launches\n']
