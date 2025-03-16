@@ -1,0 +1,68 @@
+### Key Phrases
+
+1. **REST API Call** – Request data from SpaceX servers.
+2. **JSON Response** – Retrieve structured launch data.
+3. **Data Extraction** – Select key fields (e.g., mission name, launch success).
+4. **Data Storage** – Convert and store data in a structured format.
+5. **Data Cleaning** – Remove missing values and ensure consistency.
+6. **Ready for Analysis** – Use for visualization and modeling.
+
+### Code to Implement Data Collection
+
+```python
+import requests
+import pandas as pd
+
+# Step 1: Make API Call
+url = "https://api.spacexdata.com/v4/launches"
+response = requests.get(url)
+
+if response.status_code == 200:
+    launches = response.json()
+    
+    # Step 2: Extract Relevant Data
+    data = []
+    for launch in launches:
+        data.append({
+            "Mission Name": launch.get("name"),
+            "Flight Number": launch.get("flight_number"),
+            "Launch Date": launch.get("date_utc"),
+            "Rocket": launch.get("rocket"),
+            "Launch Success": launch.get("success")
+        })
+    
+    # Step 3: Store Data in a DataFrame
+    df = pd.DataFrame(data)
+    
+    # Step 4: Clean Data
+    df.dropna(inplace=True)
+    
+    # Step 5: Display the first few rows
+    import ace_tools as tools
+    tools.display_dataframe_to_user(name="SpaceX Launch Data", dataframe=df)
+else:
+    print("Failed to fetch data from the API")
+
+# Create a flowchart for the SpaceX REST API data collection process
+dot = graphviz.Digraph()
+
+dot.node("A", "Start")
+dot.node("B", "Make API Call to SpaceX REST API")
+dot.node("C", "Receive JSON Response")
+dot.node("D", "Extract Relevant Data")
+dot.node("E", "Store Data in Structured Format")
+dot.node("F", "Clean and Process Data")
+dot.node("G", "Data Ready for Analysis")
+dot.node("H", "End")
+
+# Define the flow connections
+dot.edges(["AB", "BC", "CD", "DE", "EF", "FG", "GH"])
+
+# Render the flowchart
+flowchart_path = "/mnt/data/spacex_rest_api_flowchart"
+dot.render(flowchart_path, format="png", cleanup=True)
+
+# Display the flowchart
+display(Image(filename=f"{flowchart_path}.png"))
+
+```
