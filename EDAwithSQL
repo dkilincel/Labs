@@ -1,0 +1,59 @@
+# Summary of SQL Queries Performed
+
+## Database Setup & Initialization
+- Installed required libraries (`sqlalchemy`, `ipython-sql`).
+- Connected to an **SQLite database** (`my_data1.db`).
+- Created a **table named `SPACEXTABLE`** from the original dataset (`SPACEXTBL`).
+- Ensured that all records have a valid **date** before storing them.
+
+## Data Exploration Queries
+- **Checked available columns** in the dataset using:
+  ```sql
+  PRAGMA table_info(SPACEXTABLE);
+  ```
+- **Counted total records** in the dataset:
+  ```sql
+  SELECT COUNT(*) FROM SPACEXTABLE;
+  ```
+- **Listed unique launch sites**:
+  ```sql
+  SELECT DISTINCT LaunchSite FROM SPACEXTABLE;
+  ```
+- **Retrieved first 5 records**:
+  ```sql
+  SELECT * FROM SPACEXTABLE LIMIT 5;
+  ```
+
+## Descriptive Statistics
+- **Calculated the number of successful vs. failed launches**:
+  ```sql
+  SELECT LaunchOutcome, COUNT(*) 
+  FROM SPACEXTABLE 
+  GROUP BY LaunchOutcome;
+  ```
+- **Analyzed yearly launch trends**:
+  ```sql
+  SELECT strftime('%Y', Date) AS Year, COUNT(*) 
+  FROM SPACEXTABLE 
+  GROUP BY Year 
+  ORDER BY Year;
+  ```
+- **Identified the most frequently used launch sites**:
+  ```sql
+  SELECT LaunchSite, COUNT(*) 
+  FROM SPACEXTABLE 
+  GROUP BY LaunchSite 
+  ORDER BY COUNT(*) DESC;
+  ```
+
+## Advanced Queries
+- **Filtered only successful launches**:
+  ```sql
+  SELECT * FROM SPACEXTABLE 
+  WHERE LaunchOutcome LIKE '%Success%';
+  ```
+- **Checked correlation between payload mass and success rate**:
+  ```sql
+  SELECT PayloadMass, LaunchOutcome 
+  FROM SPACEXTABLE;
+  
