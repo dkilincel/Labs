@@ -54,3 +54,29 @@ notebook_viz.cells[:15]
  {'cell_type': 'markdown',
   'metadata': {},
   'source': "**Create a SQLite Database and Insert the Data**\n\nNow, let's create a new SQLite database (`survey-data.sqlite`) and insert the data from the DataFrame into a table using the sqlite3 library:\n"}]
+# Downloading data
+!wget https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/n01PQ9pSmiRX6520flujwQ/survey-data.csv
+
+# Installing required libraries
+!pip install pandas matplotlib sqlite3
+
+# Importing libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+import sqlite3
+
+# Loading data into DataFrame
+df = pd.read_csv('survey-data.csv')
+print(df.head())
+
+# Creating SQLite database and inserting data
+conn = sqlite3.connect('survey-data.sqlite')
+df.to_sql('survey', conn, if_exists='replace', index=False)
+
+# Verify database insertion by running an SQL query
+query_result = pd.read_sql('SELECT * FROM survey LIMIT 5', conn)
+print(query_result)
+
+# Close connection
+conn.close()
+
